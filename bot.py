@@ -18,4 +18,19 @@ client = discord.Client(intents=intents)
 token = os.getenv("token")
 status = os.getenv("status")
 
+@bot.hybrid_command(name="status",description="Gets the status of WiiMart")
+async def statusy(ctx):
+    if status == "Not Set":
+        await ctx.send("The status hasnt been set by an admin yet, please check again later.")
+    else:
+        await ctx.send(f"The Current status is: {status}")
+
+@bot.hybrid_command(name="setstatus",description="Sets the current server status to your liking")
+@commands.has_any_role("Owner", "Admin", "Moderators")
+async def setstatus(ctx, stat: str):
+    global status
+    status = stat
+    await ctx.send(f"Status has been set to: {status}")
+    
+
 bot.run(token)
