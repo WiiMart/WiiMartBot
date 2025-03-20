@@ -1,2 +1,4 @@
 discord.py
 dotenv
+requests
+sqlite3
