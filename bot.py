@@ -80,6 +80,7 @@ error_codes = """
 205928: Unknown error
 205940-250941: Problems with your "Club-Nintendo"-account. It can't get connected with your shop account
 250943: Problems with your "Club-Nintendo"-account. It can't get connected with your shop account
+209600-209601: Connection timeout
 205942: Maintenance. Login not possible
 205958: Unknown error
 205968: IAS_BAD_DEVICE_CODE
@@ -98,7 +99,7 @@ error_codes = """
 206611: Wii download ticket invalid
 206612: This Wii download ticket can't be used in your country
 206613: No software available for this download ticket. May be caused by parental controls.
-206650: Wrong PIN
+206650: Wrong PIN (parental controls)
 206651: Mistake while entering the wii serial number
 206652: Wrong PIN three times (parental controls)
 206653: Nickname or password wrong
