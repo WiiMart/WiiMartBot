@@ -322,6 +322,9 @@ async def geterror(ctx, errorcode: commands.Range[int, 204000, 250943]):
         errormessage = "Error Code was not found."
     await ctx.send(errormessage)
 
-os.remove("error_codes.db")
+try:
+    os.remove("error_codes.db")
+except Exception as e:
+    print("i cant let you do that dave...")
 create_database()
 bot.run(token)
