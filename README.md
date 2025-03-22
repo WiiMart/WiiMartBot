@@ -49,12 +49,15 @@ mqpo=mysqlport
 - `/setstatus <status>`: Set the current status of the bot (requires Admin role).
 - `/unsetstatus`: Unset the current status of the bot (requires Admin role).
 - `/error <error_code>`: Get the error message linked with the specified error code.
+- `/addfc <fc>`: Adds your friend code to the lists of friendcodes.
+- `/forceaddfc <user> <fc>`: Adds the users friendcode to the lists of friendcodes (requires Admin role).
+- `/getfc <user>`: Gets the friend code of the specified user.
 
 ## Database Management
 
 The bot uses a SQLite database to store error codes and their corresponding messages. The database is created and populated automatically when the bot starts. 
 
-The MySQL database is to store friend codes from users. It is not automatically populated, a table with usersfc is needed, with 2 collums, one for the userid as INT and one for their friend code as fc as a INT.
+The MySQL database is to store friend codes from users. It is not automatically populated, a table with usersfc is needed, with 2 collums, one for the userid as varchar of 20 and one for their friend code as fc as a varcahr of 16.
 
 ### Error Codes Format
 

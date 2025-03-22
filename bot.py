@@ -4,6 +4,7 @@ import os
 from dotenv import load_dotenv 
 import sqlite3
 import mysql.connector
+from mysql.connector import Error
 import re
 import requests
 
@@ -326,7 +327,86 @@ async def geterror(ctx, errorcode: commands.Range[int, 204000, 250943]):
 
 @bot.hybrid_command(name="addfc", description="Adds your Wii Friend code to the list of friend codes so that others can add you")
 async def addfc(ctx, fc: int):
+    await ctx.defer(ephemeral=True)
+    if len(str(fc)) != 16:
+        await ctx.send(f"You need to input a friendcode that is of 16 numbers not {len(str(fc))}", ephemeral=True)
+    else:
+        userid = ctx.author.id
+        #print(userid)
+        conn = mysql.connector.connect(host=os.getenv("mqur"), user=os.getenv("mqlu"), password=os.getenv("mqlp"), database=os.getenv("mqld"), port=os.getenv("mqpo"))
+        cur = conn.cursor(buffered=True)
+        cur.execute(f"SELECT fc FROM usersfc WHERE userid = '{userid}'")
+        try:
+            fethcy = cur.fetchall()
+        except Error as e:
+            fetchy = False
+        if fethcy:
+            cur.close()
+            cur = conn.cursor(buffered=True)
+            cur.execute(f"UPDATE usersfc SET fc = '{fc}' WHERE userid = '{userid}'")
+            conn.commit()
+            cur.close()
+            conn.close()
+            await ctx.send("Updated your friend code", ephemeral=True)
+        else:
+            cur.close()
+            cur = conn.cursor(buffered=True)
+            cur.execute(f"INSERT INTO usersfc (userid, fc) VALUES ('{userid}', '{fc}')")
+            conn.commit()
+            cur.close()
+            conn.close()
+            await ctx.send("Added your friend code", ephemeral=True)
+    
+@bot.hybrid_command(name="getfc", description="Gets the friend code of the selected user")
+async def getfc(ctx, member: discord.Member):
+    await ctx.defer(ephemeral=True)
+    userid = member.id
+    #print(userid)
     conn = mysql.connector.connect(host=os.getenv("mqur"), user=os.getenv("mqlu"), password=os.getenv("mqlp"), database=os.getenv("mqld"), port=os.getenv("mqpo"))
+    cur = conn.cursor(buffered=True)
+    cur.execute(f"SELECT fc FROM usersfc WHERE userid = '{userid}'")
+    fetchy = cur.fetchone()[0]
+    fetchy = " ".join([fetchy[i:i+4] for i in range(0, len(fetchy), 4)])
+    if fetchy:
+        await ctx.send(f"<@{userid}> Friend code is: {fetchy}", ephemeral=True)
+    else:
+        await ctx.send(f"<@{userid}> did not share his friend code.", ephemeral=True)
+    cur.close()
+    conn.close()
+
+@bot.hybrid_command(name="forceaddfc", description="Force adds the users Wii Friend code to the list of friend codes so that others can add them")
+@commands.has_any_role("Owner", "Admin", "Moderators")
+async def addfc(ctx, user: discord.Member, fc: int):
+    await ctx.defer(ephemeral=True)
+    if len(str(fc)) != 16:
+        userid = user.id
+        await ctx.send(f"You need to input a friendcode that is of 16 numbers not {len(str(fc))} for <@{userid}>", ephemeral=True)
+    else:
+        userid = user.id
+        #print(userid)
+        conn = mysql.connector.connect(host=os.getenv("mqur"), user=os.getenv("mqlu"), password=os.getenv("mqlp"), database=os.getenv("mqld"), port=os.getenv("mqpo"))
+        cur = conn.cursor(buffered=True)
+        cur.execute(f"SELECT fc FROM usersfc WHERE userid = '{userid}'")
+        try:
+            fethcy = cur.fetchall()
+        except Error as e:
+            fetchy = False
+        if fethcy:
+            cur.close()
+            cur = conn.cursor(buffered=True)
+            cur.execute(f"UPDATE usersfc SET fc = '{fc}' WHERE userid = '{userid}'")
+            conn.commit()
+            cur.close()
+            conn.close()
+            await ctx.send(f"Updated <@{userid}> friend code", ephemeral=True)
+        else:
+            cur.close()
+            cur = conn.cursor(buffered=True)
+            cur.execute(f"INSERT INTO usersfc (userid, fc) VALUES ('{userid}', '{fc}')")
+            conn.commit()
+            cur.close()
+            conn.close()
+            await ctx.send(f"Added <@{userid}> friend code", ephemeral=True)
 
 try:
     os.remove("error_codes.db")
