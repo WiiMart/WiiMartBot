@@ -21,7 +21,7 @@ This is a Discord bot built using the `discord.py` library that provides functio
 
 ## Installation
 
-1. **Clone the repository** (if applicable):
+1. **Clone the repository**:
    `git clone https://github.com/WiiMart/WiiMartBot.git`
    `cd WiiMartBot`
 
