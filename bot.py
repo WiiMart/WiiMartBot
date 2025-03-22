@@ -26,14 +26,18 @@ url_status = "Unknown"
 url = "https://oss-auth.blinklab.com/"
 
 error_codes = """
+202011: Problem with CDN (I haven't seen this in a while)
 20400X: Server under heavy load
 204013: Try another credit card or contact your credit card provider
 204015: Server under heavy load
 204017: Wii Points Card invalid
+204035: Problem importing ticket
+204036: Problem importing title metadata
 204019-204041: Server under heavy load (during software download)
 204038: Wireless interferences?
 204042-204053: Server under heavy load
 204700-204801: Server under heavy load
+204927: IAS Unknown issuer of device cert
 204901-204973: Try another credit card or contact your credit card provider
 2056XX: ECS error (eCommerce SOAP)
 2057XX: ETS error
