@@ -324,6 +324,10 @@ async def geterror(ctx, errorcode: commands.Range[int, 204000, 250943]):
         errormessage = "Error Code was not found."
     await ctx.send(errormessage)
 
+@bot.hybrid_command(name="addfc", description="Adds your Wii Friend code to the list of friend codes so that others can add you")
+async def addfc(ctx, fc: int):
+    conn = mysql.connector.connect(host=os.getenv("mqur"), user=os.getenv("mqlu"), password=os.getenv("mqlp"), database=os.getenv("mqld"), port=os.getenv("mqpo"))
+
 try:
     os.remove("error_codes.db")
 except Exception as e:
