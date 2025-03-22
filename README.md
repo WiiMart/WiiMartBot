@@ -54,16 +54,14 @@ mqpo=mysqlport
 
 The bot uses a SQLite database to store error codes and their corresponding messages. The database is created and populated automatically when the bot starts. 
 
+The MySQL database is to store friend codes from users. It is not automatically populated, a table with usersfc is needed, with 2 collums, one for the userid as INT and one for their friend code as fc as a INT.
+
 ### Error Codes Format
 
 The error codes are defined in the script and can include:
 - Standalone codes (e.g., `204013`)
 - Ranges (e.g., `204019-204041`), which will be expanded into individual codes.
 - Wildcard codes (e.g., `2056XX`), which can match multiple codes.
-
-## Contributing
-
-If you would like to contribute to this project, please fork the repository and submit a pull request.
 
 ## Privacy Notice
 
