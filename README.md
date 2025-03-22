@@ -23,7 +23,7 @@ This is a Discord bot built using the `discord.py` library that provides functio
 
 1. **Clone the repository** (if applicable):
    `git clone https://github.com/WiiMart/WiiMartBot.git`
-   `cd WiiMartBot>`
+   `cd WiiMartBot`
 
 2. **Install the required packages**:
    `pip install discord.py python-dotenv requests mysql-connector-python`
