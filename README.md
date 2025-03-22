@@ -35,7 +35,7 @@ status="Not Set"
 mqlu=mysqluser 
 mqlp=mysqlpassword 
 mqld=mysqldb 
-mqlu=mysqlurl 
+mqur=mysqlurl 
 mqpo=mysqlport
 ```
 
