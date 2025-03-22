@@ -3,11 +3,9 @@ from discord.ext import commands
 import os
 from dotenv import load_dotenv 
 import sqlite3
+import mysql.connector
 import re
-import threading
 import requests
-import time
-import sys
 
 
 class Bot(commands.Bot):
@@ -26,7 +24,6 @@ token = os.getenv("token")
 status = os.getenv("status")
 url_status = "Unknown"
 url = "https://oss-auth.blinklab.com/"
-stop_event = threading.Event()
 
 error_codes = """
 20400X: Server under heavy load
