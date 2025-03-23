@@ -304,14 +304,14 @@ async def statusy(ctx):
         await ctx.send(f"WiiMart Status: {url_status}\nAdmin Status: {status}")
 
 @bot.hybrid_command(name="setstatus",description="Sets the current server status to your liking")
-@commands.has_any_role("Owner", "Admin", "Moderators")
+@commands.has_any_role("Owner", "Admin", "Moderators", "Hoster")
 async def setstatus(ctx, stat: str):
     global status
     status = stat
     await ctx.send(f"Status has been set to: {status}")
 
 @bot.hybrid_command(name="unsetstatus", description="Unsets the current status")
-@commands.has_any_role("Owner", "Admin", "Moderators")
+@commands.has_any_role("Owner", "Admin", "Moderators", "Hoster")
 async def unset(ctx):
     global status
     status = "Not Set"
