@@ -11,7 +11,7 @@ import requests
 
 class Bot(commands.Bot):
     def __init__(self, intents: discord.Intents, **kwargs):
-        super().__init__(command_prefix="!--!--!", intents=intents, case_insensitive=True)
+        super().__init__(command_prefix="/", intents=intents, case_insensitive=True)
 
     async def on_ready(self):
         print(f'{self.user} has connected to Discord!')
