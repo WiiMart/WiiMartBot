@@ -32,35 +32,45 @@ error_codes = """
 204013: Try another credit card or contact your credit card provider
 204015: Server under heavy load
 204017: Wii Points Card invalid
-204035: Problem importing ticket
-204036: Problem importing title metadata
 204019-204041: Server under heavy load (during software download)
 204038: Wireless interferences?
-204042-204053: Server under heavy load
+204042: User is not registered with the server
+204961: SSL cipher error when trying to communicate with SOAP servers
+204050: You do not own a title; ticket not found
+204036: Problem importing Title metadata
+204035: Problem importing ticket
+204037: Problem importing title content
+204034: Invalid SOAP response
+204400-204899: HTTP Status Code (from HTTP 100 to HTTP 599)
+20955X: 2-7 Timeout occurred between client and server
+204704: Equivalent to a HTTP 404 error
+2056XX: ECS Error
+205625: ECS Gift error
+2059XX-2064XX: IAS Error
+205968: "Bad device code" (?)
+205627: Cannot buy DLC for a title you don't own
+2057XX-20570X: ETS Error
+2058XX-205825: PAS Error
+2066XX: OSS Error
+209531: Page was not found
+209622: SSL CA unknown / not included in channel
+220003: The requested URL was filtered by Opera's filter
+204043-204053: Server under heavy load
 204700-204801: Server under heavy load
 204927: IAS Unknown issuer of device cert
 204901-204973: Try another credit card or contact your credit card provider
-2056XX: ECS error (eCommerce SOAP)
-2057XX: ETS error
-2058XX: PAS error
-2059XX: IAS error (Identity Authentication SOAP)
-2064XX: IAS error (Identity Authentication SOAP)
-2066XX: OSS error
 205540: This software doesn't work in the vWii
 205617: Wii Points card code invalid
 205618: Wii Points card is for another country
 205621: Unknown error (possibly ECS gift error?)
 205623: Trial period for that title expired, you can't download that again
-205625: ECS gift error
 205626: Unable to send present (ECS gift error)
-205627: You cannot buy DLC for a game you don't own
 205642: Unknown error
 205643: Unknown error
 205644: Credit cards can't be used on this console.
 205645: Issue with your DSi shop account?
 205646: Unable to send present (ECS gift error)
 205672: Wii Shop account mismatch
-20570X: ETS Error
 20580X: Wii Points Card error
 205810: You don't have enough Wii Points / Error while redeeming your download ticket
 205811: Wii Points card expired
@@ -70,7 +80,6 @@ error_codes = """
 205817: Server under heavy load
 205818: This card number can only be used for a specific title, it is not a Wii Points Card.
 205819: Wii Points Card code is invalid
-205825: PAS_ERROR_CODE
 205826: Server under heavy load
 205829: Server under heavy load
 205830: Wii Points Card code is invalid
@@ -89,7 +98,6 @@ error_codes = """
 205969: Server under heavy load
 206112: The free title promotion has ended (ICR_END)
 206401: Invalid characters in nick or password
-206402-206403: Problems with your "Club-Nintendo"-account. It can't get connected with your shop account
 206499: Maintenance. Login not possible
 206601: OSS_ERROR_INVALID_PARAM. Triggered by B_24 in Wii Shop (Invalid parameter)
 206602: Error while entering Wii Points Card code. Try again later.
@@ -188,7 +196,6 @@ error_codes = """
 220000: Connection failed
 220001: Unknown protocol
 220002: Out of memory
-220003: Filtered URL
 220101: Allocation error
 220102: Unsupported file
 220103: Empty file
@@ -197,11 +204,11 @@ error_codes = """
 220106: Plugin error
 220201: Not found
 220202: Connection refused
-220301 - 220302: HTTP error code 100 - 101
-220303 - 220309: HTTP error code 200 - 206
-220310 - 220315: HTTP error code 300 - 305
-220316 - 220331: HTTP error code 400 - 415
-220332 - 220337: HTTP error code 500 - 505
+220301-220302: HTTP error code 100 - 101
+220303-220309: HTTP error code 200 - 206
+220310-220315: HTTP error code 300 - 305
+220316-220331: HTTP error code 400 - 415
+220332-220337: HTTP error code 500 - 505
 """
 
 def parse_error_codes(error_codes):
