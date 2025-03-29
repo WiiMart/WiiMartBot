@@ -65,7 +65,3 @@ The error codes are defined in the script and can include:
 - Standalone codes (e.g., `204013`)
 - Ranges (e.g., `204019-204041`), which will be expanded into individual codes.
 - Wildcard codes (e.g., `2056XX`), which can match multiple codes.
-
-## Privacy Notice
-
-This is a private repository and is not to be distributed unless explicit permission from the author or project owner has been given.
