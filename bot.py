@@ -37,11 +37,13 @@ error_codes = """
 204042: User is not registered with the server
 204961: SSL cipher error when trying to communicate with SOAP servers
 204050: You do not own a title; ticket not found
-204036: Problem importing Title metadata
+204036: Problem importing title metadata
 204035: Problem importing ticket
 204037: Problem importing title content
 204034: Invalid SOAP response
 204400-204899: HTTP Status Code (from HTTP 100 to HTTP 599)
+204900-204959: NHTTP Error range
+204960-204979: EC SSL Error range
 20955X: 2-7 Timeout occurred between client and server
 204704: Equivalent to a HTTP 404 error
 2056XX: ECS Error
