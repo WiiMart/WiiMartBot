@@ -1,6 +1,6 @@
 # WiiMart Discord Bot
 
-<img src="https://github.com/LNLenost/various-stuff/blob/main/WiiMart_star_logo.png" width="100" height="100" align="right" />
+<img src="https://wiimart.github.io/media/branding-bag-no-bg.png" width="100" height="100" align="right" />
 
 This is a Discord bot built using the `discord.py` library that provides functionalities for managing and querying error codes related to a specific service. The bot can respond to commands, check the status of a service, and manage error codes stored in a SQLite database.
 
@@ -67,3 +67,7 @@ The error codes are defined in the script and can include:
 - Standalone codes (e.g., `204013`)
 - Ranges (e.g., `204019-204041`), which will be expanded into individual codes.
 - Wildcard codes (e.g., `2056XX`), which can match multiple codes.
+
+*WiiMart is not affiliated with Nintendo or any related parties.*
+
+*To contact, please send an email to support@wiimart.org*
