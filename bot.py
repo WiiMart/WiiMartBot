@@ -391,7 +391,7 @@ async def unset(ctx):
     await ctx.send("Status has been unset.")
 
 @bot.hybrid_command(name="error", description="Gets the error message linked with the shop error code")
-async def geterror(ctx, errorcode: commands.Range[int, 204000, 250943]):
+async def geterror(ctx, errorcode: commands.Range[int, 200000, 250943]):
     try:
         errormessage = get_error_message(errorcode)
     except ValueError:
