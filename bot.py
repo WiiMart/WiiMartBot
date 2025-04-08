@@ -156,6 +156,8 @@ error_codes = """
 208025: Empty security code
 209XXX: Server connection timeout
 209531: Web page not found (WS_ERROR_WWW_HTTP_ERR_NOT_FOUND)
+209552: Timeout between client and server
+209557: Timeout Occurred between client and server
 209593: Access denied by Opera Wii Shop domain filter config
 209620: Some JS files couldn't be loaded (CheckRegistered.jsp line ~100)
 209622: SSL CA unknown / not included in channel
