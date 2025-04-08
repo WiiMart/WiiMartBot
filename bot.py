@@ -27,12 +27,45 @@ url_status = "Unknown"
 url = "https://oss-auth.blinklab.com/"
 
 error_codes = """
-202011: Problem with CDN (I haven't seen this in a while)
-20400X: Server under heavy load
+201005: Invalid public key type in certificate
+201009: Read failure (short read)
+201010: Write failure (short write)
+201012: Invalid signature type (for signed blobs)
+201016: Maximum amount of handles exceeded (3 handles, as there are only 3 contexts)
+201017: Invalid arguments
+201020: Device ID mismatch. Returned by ES_ImportTicket if the ticket is personalised and the device ID from the ticket mismatches with the actual ID.
+201022: Imported content hash does not match with the hash from the TMD. Returned by ES_ImportContentEnd and ES_ImportBoot.
+201024: Memory allocation failure
+201026: Incorrect access rights (according to the TMD)
+201027: Issuer not found in the certificate chain
+201028: Ticket not found
+201029: Invalid ticket. This is returned if the common key field contains an invalid value (anything other than 0 or 1). This is also returned from ES_LaunchTitle if the title ID contained in the ticket does not match the TMD title ID.
+201031: During LaunchTitle/ImportTitle: installed boot2 version is too old. During ImportBoot: downgrades are not allowed.
+201032: Fatal error early in ES initialisation. Can also be returned in ES_CheckHasKoreanKey in all other cases (key is not the Korean Key or a zero key!)
+201033: A ticket limit was exceeded (duration or launch count)
+201034: Returned by ES_CheckHasKoreanKey if the key is sensed to be all zeroes
+201035: A title with a higher version is already installed
+201036: Required sysversion(IOS) is not installed (only for the system menu [check])
+201037: Installed number of contents doesn't match TMD (only for the system menu [check])
+201039: Returned by DI as an ES error code when TMD not supplied for disc/nand game
+202000: Permission denied (returned when accessing an object for which the caller has no permission)
+202001: IOSC_EEXIST
+202003: IOSC_EMAX
+202004: IOSC_ENOENT
+202005: IOSC_INVALID_OBJTYPE
+202006: IOSC_INVALID_RNG
+202007: IOSC_INVALID_FLAG
+202008: IOSC_INVALID_FORMAT
+202009: IOSC_INVALID_VERSION
+202010: IOSC_INVALID_SIGNER
+202011: IOSC_FAIL_CHECKVALUE
+202012: Internal failure
+202013: Memory allocation failure. Known to be returned when the keyring is full (contains 0x20 keys)
+202014: Invalid size
+202015: Invalid address
+202016: Unaligned data
 204013: Try another credit card or contact your credit card provider
-204015: Server under heavy load
 204017: Wii Points Card invalid
-204019-204041: Server under heavy load (during software download)
 204038: Wireless interferences?
 204042: User is not registered with the server
 204961: SSL cipher error when trying to communicate with SOAP servers
@@ -41,7 +74,44 @@ error_codes = """
 204035: Problem importing ticket
 204037: Problem importing title content
 204034: Invalid SOAP response
-204400-204899: HTTP Status Code (from HTTP 100 to HTTP 599)
+204501: HTTP 201 Created
+204502: HTTP 202 Accepted
+204503: HTTP 203 Non-Authoritative Information
+204504: HTTP 204 No Content
+204505: HTTP 205 Reset Content
+204506: HTTP 206 Partial Content
+204600: HTTP 300 Multiple Choices
+204601: HTTP 301 Moved Permanently
+204602: HTTP 302 Found
+204603: HTTP 303 See Other
+204604: HTTP 304 Not Modified
+204607: HTTP 307 Temporary Redirect
+204608: HTTP 308 Permanent Redirect
+204700: HTTP 400 Bad Request
+204701: HTTP 401 Unauthorized
+204702: HTTP 402 Payment Required
+204703: HTTP 403 Forbidden
+204704: HTTP 404 Not Found
+204705: HTTP 405 Method Not Allowed
+204706: HTTP 406 Not Acceptable
+204707: HTTP 407 Proxy Authentication Required
+204708: HTTP 408 Request Timeout
+204709: HTTP 409 Conflict
+204710: HTTP 410 Gone
+204711: HTTP 411 Length Required
+204712: HTTP 412 Precondition Failed
+204713: HTTP 413 Request Too Large
+204714: HTTP 414 Request-URI Too Long
+204715: HTTP 415 Unsupported Media Type
+204716: HTTP 416 Range Not Satisfiable
+204717: HTTP 417 Expectation Failed
+204800: HTTP 500 Internal Server Error
+204801: HTTP 501 Not Implemented
+204802: HTTP 502 Bad Gateway
+204803: HTTP 503 Service Unavailable
+204804: HTTP 504 Gateway Timeout
+204805: HTTP 505 HTTP Version Not Supported
+204811: HTTP 511 Network Authentication Required
 204900-204959: NHTTP Error range
 204960-204979: EC SSL Error range
 20955X: 2-7 Timeout occurred between client and server
@@ -57,8 +127,6 @@ error_codes = """
 209531: Page was not found
 209622: SSL CA unknown / not included in channel
 220003: The requested URL was filtered by Opera's filter
-204043-204053: Server under heavy load
-204700-204801: Server under heavy load
 204927: IAS Unknown issuer of device cert
 204901-204973: Try another credit card or contact your credit card provider
 205540: This software doesn't work in the vWii
@@ -79,11 +147,8 @@ error_codes = """
 205812-205814: The Wii Points card can not be used
 205815: Wii Points Card was already used
 205816: Some error with the Wii Points Card
-205817: Server under heavy load
 205818: This card number can only be used for a specific title, it is not a Wii Points Card.
 205819: Wii Points Card code is invalid
-205826: Server under heavy load
-205829: Server under heavy load
 205830: Wii Points Card code is invalid
 205831: Wii Points Card is for another Country
 205901: Wii number invalid!
@@ -97,14 +162,12 @@ error_codes = """
 205942: Maintenance. Login not possible
 205958: Unknown error
 205968: IAS_BAD_DEVICE_CODE
-205969: Server under heavy load
 206112: The free title promotion has ended (ICR_END)
 206401: Invalid characters in nick or password
 206499: Maintenance. Login not possible
 206601: OSS_ERROR_INVALID_PARAM. Triggered by B_24 in Wii Shop (Invalid parameter)
 206602: Error while entering Wii Points Card code. Try again later.
 206603: Unable to confirm credit card information
-206604: Server under heavy load
 206607: Error while retrieving the served content
 206608: Error redeeming Wii Download Ticket
 206610: Wii download ticket expired
@@ -129,7 +192,6 @@ error_codes = """
 206673: Problem with your Wii Shop Account (invalid registration status)
 206674: Problem with your Wii Shop Account (unexpected eclib error)
 206699: Try again later
-2067XX: Server under heavy load
 208000: You have entered the wrong state ("Bundesland")
 208001: Unable to process for credit cards (some kind of blacklist?)
 208002: Billing address invalid
