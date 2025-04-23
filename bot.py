@@ -2,17 +2,56 @@ import socket
 import threading
 import time
 import discord
-from discord.ext import commands
-import os
-from dotenv import load_dotenv 
-import sqlite3
-import mysql.connector
-from mysql.connector import Error
 import re
 import requests
+import logging
+import os
+import sqlite3
+import mysql.connector
+from discord.ext import commands
+from mysql.connector import Error
+from dotenv import load_dotenv 
+from colorama import Fore, init, Style
 
-TAILSCALE_IP1 = "100.x.y.z" 
-TAILSCALE_IP2 = "100.x.y.z"
+init()
+
+class ColoredFormatter(logging.Formatter):
+    """Adds colors to log levels"""
+    COLORS = {
+        'DEBUG': Fore.CYAN,
+        'INFO': Fore.GREEN,
+        'WARNING': Fore.YELLOW,
+        'ERROR': Fore.RED,
+        'CRITICAL': Fore.RED + Style.BRIGHT
+    }
+
+    def format(self, record):
+        level_color = self.COLORS.get(record.levelname, Fore.WHITE)
+        # Apply color to levelname only
+        record.levelname = f"{level_color}{record.levelname}{Style.RESET_ALL}"
+        return super().format(record)
+
+# Your original config with colors added
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(levelname)s at %(asctime)s : %(message)s',
+    datefmt='%H:%M:%S',
+    handlers=[logging.StreamHandler()]
+)
+
+# Apply the colored formatter
+formatter = ColoredFormatter(
+    fmt='%(levelname)s at %(asctime)s : %(message)s',
+    datefmt='%H:%M:%S'
+)
+
+# Update the handler
+logger = logging.getLogger()
+for handler in logger.handlers:
+    handler.setFormatter(formatter)
+
+TAILSCALE_IP1 = "100.118.134.32" 
+TAILSCALE_IP2 = "100.95.192.63"
 LOCK_PORT = 30000           
 TIMEOUT = 5.0               
 CHECK_INTERVAL = 10 
@@ -56,11 +95,13 @@ class LeaderElection:
                 
                 # Start socket server in background thread
                 threading.Thread(target=self.start_leader_server, daemon=True).start()
-                print("🎖️ Became leader - Starting bot")
+                #print("Became leader - Starting bot")
+                logging.info("Became leader - Starting bot") 
                 return True
                 
             except OSError as e:
-                print(f"Leadership attempt failed: {e}")
+                #print(f"Leadership attempt failed: {e}")
+                logging.critical(f"Leadership attempt failed: {e}")
                 self.cleanup()
                 return False
             
@@ -92,12 +133,14 @@ def health_check(leader_election):
                     s.connect((TAILSCALE_IP2, LOCK_PORT))
             except:
                 # Lost leadership
-                print("⚠️ Lost leadership")
+                #print("Lost leadership")
+                logging.error("Lost leadership")
                 leader_election.cleanup()
         else:
             # Check if leader is gone
             if not leader_election.check_leader_active():
-                print("⚡ Attempting to become leader...")
+                #print("Attempting to become leader...")
+                logging.warning("Attempting to become leader...")
                 if leader_election.attempt_leadership():
                     # Start the bot now that we're leader
                     start_bot()
@@ -107,7 +150,8 @@ class Bot(commands.Bot):
         super().__init__(command_prefix="/", intents=intents, case_insensitive=True)
 
     async def on_ready(self):
-        print(f'{self.user} has connected to Discord!')
+        #print(f'{self.user} has connected to Discord!')
+        logging.info(f'{self.user} has connected to Discord!')
         await self.tree.sync()
 
 load_dotenv()
@@ -652,14 +696,16 @@ async def on_message(message):
             await message.add_reaction('👀')
             await message.reply("Please dont ping me...")
         except Exception as e:
-            print(f'Failed to react to mention: {e}')
+            #print(f'Failed to react to mention: {e}')
+            logging.error(f'Failed to react to mention: {e}')
 
     if isinstance(message.channel, discord.DMChannel) and message.author != bot.user:
         try:
             await message.add_reaction('👀')
             await message.reply("Dont dm me please... If you have an issue, make a post in <#1350084638726553632> or send an email to us at support@wiimart.org")
         except Exception as e:
-            print(f'Failed to react to DM: {e}')
+            #print(f'Failed to react to DM: {e}')
+            logging.error(f'Failed to react to mention: {e}')
     
     await bot.process_commands(message)
 
@@ -671,7 +717,8 @@ if __name__ == "__main__":
     try:
         os.remove("error_codes.db")
     except Exception as e:
-        print("i cant let you do that dave...")
+        #print("i cant let you do that dave...")
+        logging.warning("i cant let you do that dave...")
     create_database()
 
     leader_election = LeaderElection()
@@ -680,7 +727,8 @@ if __name__ == "__main__":
     if leader_election.attempt_leadership():
         start_bot()
     else:
-        print("Running in follower mode - waiting for leadership")
+        #print("Running in follower mode - waiting for leadership")
+        logging.info("Running in follower mode - waiting for leadership")
         # Start health check in background
         threading.Thread(target=health_check, args=(leader_election,), daemon=True).start()
         
