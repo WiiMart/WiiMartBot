@@ -1,3 +1,6 @@
+import socket
+import threading
+import time
 import discord
 from discord.ext import commands
 import os
@@ -8,6 +11,96 @@ from mysql.connector import Error
 import re
 import requests
 
+TAILSCALE_IP1 = "100.x.y.z" 
+TAILSCALE_IP2 = "100.x.y.z"
+LOCK_PORT = 30000           
+TIMEOUT = 5.0               
+CHECK_INTERVAL = 10 
+
+class LeaderElection:
+    def __init__(self):
+        self.is_leader = False
+        self.leader_socket = None
+        self.lock = threading.Lock()
+        self.keep_running = True
+        
+    def start_leader_server(self):
+        """Run the leader socket in background"""
+        while self.keep_running and self.is_leader:
+            try:
+                # This will block for TIMEOUT seconds max
+                conn, addr = self.leader_socket.accept()
+                conn.close()  # Immediately close connection
+            except socket.timeout:
+                continue  # Just keep waiting
+            except:
+                break  # Exit on other errors
+
+    def attempt_leadership(self):
+        with self.lock:
+            if self.is_leader:
+                return True
+                
+            try:
+                # Check if leader exists
+                if self.check_leader_active():
+                    return False
+                    
+                # Try to become leader
+                self.leader_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+                self.leader_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+                self.leader_socket.bind(('0.0.0.0', LOCK_PORT))
+                self.leader_socket.listen(1)
+                self.leader_socket.settimeout(TIMEOUT)
+                self.is_leader = True
+                
+                # Start socket server in background thread
+                threading.Thread(target=self.start_leader_server, daemon=True).start()
+                print("🎖️ Became leader - Starting bot")
+                return True
+                
+            except OSError as e:
+                print(f"Leadership attempt failed: {e}")
+                self.cleanup()
+                return False
+            
+    def check_leader_active(self):
+        """Check if leader is active"""
+        try:
+            with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+                s.settimeout(TIMEOUT)
+                s.connect((TAILSCALE_IP1, LOCK_PORT))
+                return True
+        except (ConnectionRefusedError, socket.timeout, OSError):
+            return False
+    
+    def cleanup(self):
+        if self.leader_socket:
+            self.leader_socket.close()
+        self.is_leader = False
+
+def health_check(leader_election):
+    """Periodically check leader status"""
+    while True:
+        time.sleep(CHECK_INTERVAL)
+        
+        if leader_election.is_leader:
+            # Verify we're still leader
+            try:
+                with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+                    s.settimeout(TIMEOUT)
+                    s.connect((TAILSCALE_IP2, LOCK_PORT))
+            except:
+                # Lost leadership
+                print("⚠️ Lost leadership")
+                leader_election.cleanup()
+        else:
+            # Check if leader is gone
+            if not leader_election.check_leader_active():
+                print("⚡ Attempting to become leader...")
+                if leader_election.attempt_leadership():
+                    # Start the bot now that we're leader
+                    start_bot()
 
 class Bot(commands.Bot):
     def __init__(self, intents: discord.Intents, **kwargs):
@@ -553,6 +646,7 @@ async def addfc(ctx, user: discord.Member, fc: int):
 
 @bot.event
 async def on_message(message):
+
     if bot.user.mentioned_in(message) and message.guild:
         try:
             await message.add_reaction('👀')
@@ -569,9 +663,28 @@ async def on_message(message):
     
     await bot.process_commands(message)
 
-try:
-    os.remove("error_codes.db")
-except Exception as e:
-    print("i cant let you do that dave...")
-create_database()
-bot.run(token)
+def start_bot():
+    """Start the bot application"""
+    bot.run(token)  # Or however you start your bot
+
+if __name__ == "__main__":
+    try:
+        os.remove("error_codes.db")
+    except Exception as e:
+        print("i cant let you do that dave...")
+    create_database()
+
+    leader_election = LeaderElection()
+    
+    # Initial leadership attempt
+    if leader_election.attempt_leadership():
+        start_bot()
+    else:
+        print("Running in follower mode - waiting for leadership")
+        # Start health check in background
+        threading.Thread(target=health_check, args=(leader_election,), daemon=True).start()
+        
+        # Keep the main thread alive
+        while True:
+            time.sleep(3600)
+
