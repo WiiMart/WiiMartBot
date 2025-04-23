@@ -551,6 +551,24 @@ async def addfc(ctx, user: discord.Member, fc: int):
             conn.close()
             await ctx.send(f"Added <@{userid}> friend code", ephemeral=True)
 
+@bot.event
+async def on_message(message):
+    if bot.user.mentioned_in(message) and message.guild:
+        try:
+            await message.add_reaction('👀')
+            await message.reply("Please dont ping me...")
+        except Exception as e:
+            print(f'Failed to react to mention: {e}')
+
+    if isinstance(message.channel, discord.DMChannel) and message.author != bot.user:
+        try:
+            await message.add_reaction('👀')
+            await message.reply("Dont dm me please... If you have an issue, make a post in <#1350084638726553632> or send an email to us at support@wiimart.org")
+        except Exception as e:
+            print(f'Failed to react to DM: {e}')
+    
+    await bot.process_commands(message)
+
 try:
     os.remove("error_codes.db")
 except Exception as e:
