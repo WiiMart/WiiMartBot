@@ -8,6 +8,7 @@ import logging
 import os
 import sqlite3
 import mysql.connector
+import sys
 from discord.ext import commands
 from mysql.connector import Error
 from dotenv import load_dotenv 
@@ -19,7 +20,7 @@ class ColoredFormatter(logging.Formatter):
     """Adds colors to log levels"""
     COLORS = {
         'DEBUG': Fore.CYAN,
-        'INFO': Fore.GREEN,
+        'INFO': Fore.BLUE,
         'WARNING': Fore.YELLOW,
         'ERROR': Fore.RED,
         'CRITICAL': Fore.RED + Style.BRIGHT
@@ -33,10 +34,10 @@ class ColoredFormatter(logging.Formatter):
 
 # Your original config with colors added
 logging.basicConfig(
-    level=logging.INFO,
+    level=logging.DEBUG,
     format='%(levelname)s at %(asctime)s : %(message)s',
     datefmt='%H:%M:%S',
-    handlers=[logging.StreamHandler()]
+    handlers=[logging.StreamHandler(sys.stderr)]
 )
 
 # Apply the colored formatter
@@ -52,7 +53,7 @@ for handler in logger.handlers:
 
 TAILSCALE_IP1 = "100.118.134.32" 
 TAILSCALE_IP2 = "100.95.192.63"
-LOCK_PORT = 30000           
+LOCK_PORT = 30000        
 TIMEOUT = 5.0               
 CHECK_INTERVAL = 10 
 
@@ -110,7 +111,7 @@ class LeaderElection:
         try:
             with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
                 s.settimeout(TIMEOUT)
-                s.connect((TAILSCALE_IP1, LOCK_PORT))
+                s.connect((TAILSCALE_IP2, LOCK_PORT))
                 return True
         except (ConnectionRefusedError, socket.timeout, OSError):
             return False
@@ -130,7 +131,7 @@ def health_check(leader_election):
             try:
                 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
                     s.settimeout(TIMEOUT)
-                    s.connect((TAILSCALE_IP2, LOCK_PORT))
+                    s.connect((TAILSCALE_IP1, LOCK_PORT))
             except:
                 # Lost leadership
                 #print("Lost leadership")
