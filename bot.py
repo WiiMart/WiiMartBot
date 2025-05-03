@@ -162,7 +162,7 @@ client = discord.Client(intents=intents)
 token = os.getenv("token")
 status = os.getenv("status")
 url_status = "Unknown"
-url = "https://oss-auth.blinklab.com/"
+url = "https://oss-auth.thecheese.io/"
 
 error_codes = """
 201005: Invalid public key type in certificate
