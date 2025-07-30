@@ -616,7 +616,7 @@ async def on_message(message):
     if bot.user.mentioned_in(message) and message.guild:
         try:
             await message.add_reaction('👀')
-            await message.reply("Please dont ping me...")
+            #await message.reply("Please dont ping me...")
         except Exception as e:
             #print(f'Failed to react to mention: {e}')
             logging.error(f'Failed to react to mention: {e}')
