@@ -396,7 +396,9 @@ error_codes = {
     "220000": "Connection Failed",
     "220002": "Out of memory",
     "220001": "Unknown protocol",
-    "250943": "Problems with your Club Nintendo -account. It can't get connected with your shop account"
+    "250943": "Problems with your Club Nintendo -account. It can't get connected with your shop account",
+    "053310": "Internet connection error. The Wii needs a 2.4gHz signal with 802.11b/g/n enabled, and the security set to WPA2-PSK (AES). The channel must also either be set to auto or be less than 12.",
+    "53310": "Internet connection error. The Wii needs a 2.4gHz signal with 802.11b/g/n enabled, and the security set to WPA2-PSK (AES). The channel must also either be set to auto or be less than 12."
 }
 
 
@@ -518,7 +520,7 @@ async def unset(ctx):
     await ctx.send("Status has been unset.")
 
 @bot.hybrid_command(name="error", description="Gets the error message linked with the shop error code")
-async def geterror(ctx, errorcode: commands.Range[int, 200000, 250943]):
+async def geterror(ctx, errorcode: commands.Range[int, 51330, 250943]):
     try:
         errormessage = get_error_message(errorcode)
     except ValueError:
