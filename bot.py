@@ -397,8 +397,8 @@ error_codes = {
     "220002": "Out of memory",
     "220001": "Unknown protocol",
     "250943": "Problems with your Club Nintendo -account. It can't get connected with your shop account",
-    "053310": "Internet connection error. The Wii needs a 2.4gHz signal with 802.11b/g/n enabled, and the security set to WPA2-PSK (AES). The channel must also either be set to auto or be less than 12.",
-    "53310": "Internet connection error. The Wii needs a 2.4gHz signal with 802.11b/g/n enabled, and the security set to WPA2-PSK (AES). The channel must also either be set to auto or be less than 12."
+    "051330": "Internet connection error. The Wii needs a 2.4gHz signal with 802.11b/g/n enabled, and the security set to WPA2-PSK (AES). The channel must also either be set to auto or be less than 12.",
+    "51330": "Internet connection error. The Wii needs a 2.4gHz signal with 802.11b/g/n enabled, and the security set to WPA2-PSK (AES). The channel must also either be set to auto or be less than 12."
 }
 
 
