@@ -322,7 +322,7 @@ error_codes = {
     "206601": "Authentication error, missing required parameters",
     "206651": "Mistake while entering the console's serial number",
     "206663": "An operation is in progress",
-    "250943": "Problems with your Club Nintendo account. It can't get connected with your shop account", // is this correct actually?
+    "250943": "Problems with your Club Nintendo account. It can't get connected with your shop account",
     "206653": "Nickname or password wrong",
     "206660": "No progress was made in the last operation",
     "241000": "Not enough RAM",
@@ -587,6 +587,7 @@ def check_url(uri):
 
 @bot.hybrid_command(name="status",description="Gets the status of WiiMart")
 async def statusy(ctx):
+    await ctx.defer()
     check_url(url)
     if status == "Not Set":
         await ctx.send(f"WiiMart Status: {url_status}\nAdmin Status: :person_shrugging: Currently Unset")
