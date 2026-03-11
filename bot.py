@@ -1,12 +1,8 @@
-import socket
-import threading
-import time
 import discord
 import re
 import requests
 import logging
 import os
-import sqlite3
 import mysql.connector
 import sys
 from discord.ext import commands
@@ -28,11 +24,9 @@ class ColoredFormatter(logging.Formatter):
 
     def format(self, record):
         level_color = self.COLORS.get(record.levelname, Fore.WHITE)
-        # Apply color to levelname only
         record.levelname = f"{level_color}{record.levelname}{Style.RESET_ALL}"
         return super().format(record)
 
-# Your original config with colors added
 logging.basicConfig(
     level=logging.DEBUG,
     format='%(levelname)s at %(asctime)s : %(message)s',
@@ -40,13 +34,11 @@ logging.basicConfig(
     handlers=[logging.StreamHandler(sys.stderr)]
 )
 
-# Apply the colored formatter
 formatter = ColoredFormatter(
     fmt='%(levelname)s at %(asctime)s : %(message)s',
     datefmt='%H:%M:%S'
 )
 
-# Update the handler
 logger = logging.getLogger()
 for handler in logger.handlers:
     handler.setFormatter(formatter)
@@ -56,7 +48,6 @@ class Bot(commands.Bot):
         super().__init__(command_prefix="/", intents=intents, case_insensitive=True)
 
     async def on_ready(self):
-        #print(f'{self.user} has connected to Discord!')
         logging.info(f'{self.user} has connected to Discord!')
         await self.tree.sync()
 
@@ -522,52 +513,21 @@ def parse_error_codes(error_codes):
         if 'X' in code:
             wildcard_codes[code] = message
         elif '-' in code:
-            # Handle ranges by expanding them into individual codes
             ranges = code.split(',')
             for r in ranges:
-                r = r.strip()  # Clean up any extra spaces
-                if '-' in r:  # Ensure it is a valid range
+                r = r.strip()
+                if '-' in r:
                     start, end = r.split('-')
                     start = start.strip()
                     end = end.strip()
-                    # Generate all codes in the range
                     for num in range(int(start), int(end) + 1):
                         exact_codes[str(num)] = message
                 else:
-                    # If it's not a valid range, treat it as an exact code
                     exact_codes[r] = message
         else:
             exact_codes[code] = message
 
     return exact_codes, wildcard_codes
-
-def create_database(db_name='error_codes.db'):
-    # Connect to the SQLite database (or create it)
-    conn = sqlite3.connect(db_name)
-    cursor = conn.cursor()
-
-    # Create a table for error codes
-    cursor.execute('''
-        CREATE TABLE IF NOT EXISTS error_codes (
-            code TEXT PRIMARY KEY,
-            message TEXT
-        )
-    ''')
-
-    # Parse the error codes
-    exact_codes, wildcard_codes = parse_error_codes(error_codes)
-
-    # Insert exact codes into the database
-    for code, message in exact_codes.items():
-        cursor.execute('INSERT OR IGNORE INTO error_codes (code, message) VALUES (?, ?)', (code, message))
-
-    # Insert wildcard codes into the database
-    for code, message in wildcard_codes.items():
-        cursor.execute('INSERT OR IGNORE INTO error_codes (code, message) VALUES (?, ?)', (code, message))
-
-    # Commit changes and close the connection
-    conn.commit()
-    conn.close()
 
 def matches_wildcard(code, wildcard_code):
     pattern = wildcard_code.replace('X', '[0-9]')
@@ -578,32 +538,14 @@ def get_error_message(code):
         return f"{code}: {error_codes[str(code)]}"
     else:
         return f"{code}: Error code not found."
-    # Connect to the SQLite database
-    conn = sqlite3.connect('error_codes.db')
-    cursor = conn.cursor()
-
-    # Check for exact matches
-    cursor.execute('SELECT message FROM error_codes WHERE code = ?', (str(code),))
-    result = cursor.fetchone()
-
-    if result:
-        return f"{code}: {result[0]}"
-
-    # Check for wildcard matches
-    cursor.execute('SELECT code, message FROM error_codes')
-    for row in cursor.fetchall():
-        if matches_wildcard(code, row[0]):
-            return f"{code}: {row[1]}"
-
-    return f"{code}: Error code not found."
 
 def check_url(uri):
-    global url_status  # Declare the global variable to modify it
+    global url_status 
     try:
-        response = requests.get(uri, verify=False, timeout=10)  # Disable SSL verification and set a timeout
-        url_status = ":green_square: Up"  # If we get a response, set status to "Up"
+        response = requests.get(uri, verify=False, timeout=10)
+        url_status = ":green_square: Up"
     except requests.exceptions.RequestException:
-        url_status = ":red_square: Down"  # If there's an exception, set status to "Down"
+        url_status = ":red_square: Down"
 
 @bot.hybrid_command(name="status",description="Gets the status of WiiMart")
 async def statusy(ctx):
@@ -643,7 +585,6 @@ async def addfc(ctx, fc: int):
         await ctx.send(f"You need to input a friendcode that is of 16 numbers not {len(str(fc))}", ephemeral=True)
     else:
         userid = ctx.author.id
-        #print(userid)
         conn = mysql.connector.connect(host=os.getenv("mqur"), user=os.getenv("mqlu"), password=os.getenv("mqlp"), database=os.getenv("mqld"), port=os.getenv("mqpo"))
         cur = conn.cursor(buffered=True)
         cur.execute(f"SELECT fc FROM usersfc WHERE userid = '{userid}'")
@@ -672,7 +613,6 @@ async def addfc(ctx, fc: int):
 async def getfc(ctx, member: discord.Member):
     await ctx.defer(ephemeral=True)
     userid = member.id
-    #print(userid)
     conn = mysql.connector.connect(host=os.getenv("mqur"), user=os.getenv("mqlu"), password=os.getenv("mqlp"), database=os.getenv("mqld"), port=os.getenv("mqpo"))
     cur = conn.cursor(buffered=True)
     cur.execute(f"SELECT fc FROM usersfc WHERE userid = '{userid}'")
@@ -725,9 +665,7 @@ async def on_message(message):
     if bot.user.mentioned_in(message) and message.guild:
         try:
             await message.add_reaction('👀')
-            #await message.reply("Please dont ping me...")
         except Exception as e:
-            #print(f'Failed to react to mention: {e}')
             logging.error(f'Failed to react to mention: {e}')
 
     if isinstance(message.channel, discord.DMChannel) and message.author != bot.user:
@@ -735,22 +673,10 @@ async def on_message(message):
             await message.add_reaction('👀')
             await message.reply("Dont dm me please... If you have an issue, make a post in <#1350084638726553632> or send an email to us at support@wiimart.org")
         except Exception as e:
-            #print(f'Failed to react to DM: {e}')
             logging.error(f'Failed to react to mention: {e}')
     
     await bot.process_commands(message)
 
-def start_bot():
-    """Start the bot application"""
-    bot.run(token)  # Or however you start your bot
-
 if __name__ == "__main__":
-    #try:
-    #    os.remove("error_codes.db")
-    #except Exception as e:
-    #    #print("i cant let you do that dave...")
-    #    logging.warning("i cant let you do that dave...")
-    #create_database()
-    logging.info("Creation of database disabled")
-    start_bot()
+    bot.run(token)
 
