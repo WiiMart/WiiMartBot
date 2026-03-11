@@ -1,5 +1,4 @@
 discord.py
 dotenv
 requests
-sqlite3
 colorama
