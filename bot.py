@@ -213,6 +213,7 @@ error_codes = {
     "204079": "EC_ERROR_ALREADY_OWN: Attempt purchase already owned item",
     "204080": "EC_ERROR_SHOP_SETUP: Shop channel setup not done or cleared",
     "204081": "EC_ERROR_INSUFFICIENT_FUNDS: Not enough funds to purchase the item",
+    
     "204992": "EC_ERROR_NHTTP_CRX",
     "204993": "EC_ERROR_NHTTP_AHF",
     "204994": "EC_ERROR_NHTTP_SCCD",
@@ -255,7 +256,7 @@ error_codes = {
     "204715": "HTTP 415 Unsupported Media Type",
     "204716": "HTTP 416 Range Not Satisfiable",
     "204717": "HTTP 417 Expectation Failed",
-    "209527": "HTTP 418 I'm a Teapot",
+    "209527": "HTTP 418 <a href=\"https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Status/418\">I'm a Teapot</a>",
     "209721": "HTTP 421 Misdirected Request",
     "372422": "HTTP 422 Unprocessable Content",
     "372423": "HTTP 423 Locked",
@@ -282,8 +283,8 @@ error_codes = {
     "204906": "NHTTP_ERROR_BUFFULL: The receive buffer is full.",
     "204907": "NHTTP_ERROR_HTTPPARSE: HTTP header parsing failed.",
     "204908": "NHTTP_ERROR_CANCELED: The request was cancelled.",
-    "204909": "NHTTP_ERROR_SDK: NHTTP_Thread generation failed. This error is also known as NHTTP_ERROR_REVOLUTIONSDK and NHTTP_ERROR_TWLSDK.",
-    "204910": "NHTTP_ERROR_WIFI: Returned when there is a problem with sending, receiving, or socket termination. Also returned when communication is blocked during sending, receiving, or termination. This error is also known as NHTTP_ERROR_REVOLUTIONWIFI and NHTTP_ERROR_TWLWIFI",
+    "204909": "NHTTP_ERROR_SDK: NHTTP_Thread generation failed.<br><small>This error is also known as <code>NHTTP_ERROR_REVOLUTIONSDK</code> and <code>NHTTP_ERROR_TWLSDK</code></small>",
+    "204910": "NHTTP_ERROR_WIFI: Returned when there is a problem with sending, receiving, or socket termination. Also returned when communication is blocked during sending, receiving, or termination.<br/><small>This error is also known as <code>NHTTP_ERROR_REVOLUTIONWIFI</code> and <code>NHTTP_ERROR_TWLWIFI</code></small>",
     "204911": "NHTTP_ERROR_UNKNOWN: An abnormal/unknown value has been set to a method by NHTTP_CreateConnection.",
     "204912": "NHTTP_ERROR_DNS_PROXY: DNS resolution failed for the proxy server.",
     "204913": "NHTTP_ERROR_CONNECT_PROXY: Connection with the proxy server failed.",
@@ -301,6 +302,24 @@ error_codes = {
     "205626": "Unable to send present (ECS gift error)",
     "205621": "Unknown error (possibly ECS gift error?)",
     "205627": "Can't buy DLC for a title you don't own.",
+    "206710": "No content is being distributed for purchase/re-download. (DLC Shop exclusive)",
+    "205002": "(CAS) Error retrieving title",
+    "205009": "(CAS) Unable to obtain DLC title from database",
+    "205005": "(CAS) Either AttributeFilters key did not exist, invalid TitleKind was passed by SOAP or mandatory key is not present",
+    "205501": "(CAS) Missing mandatory key (either ApplicationId, Name, or Value)",
+    "205502": "(CAS) Missing mandatory key (ListResultOffset)",
+    "205503": "(CAS) Either couldn't convert ListResultOffset to integer, unable to marshal offer types JSON or unable to parse XML file",
+    "205504": "(CAS) Either unable to convert ListResultTotalSize to integer or couldn't get content metadata",
+    "205505": "(CAS) ListResultOffset cannot be bigger than ListResultTotalSize",
+    "205506": "(CAS) Either unable to marshal offer types JSON or couldn't get content index",
+    "205507": "DLC is not implemented yet for the title you've tried to use.",
+    "205508": "(CAS) Missing mandatory key (ListResultOffset)",
+    "205509": "(CAS) Couldn't convert ListResultOffset to integer",
+    "205510": "(CAS) Unable to get offer types for the title you've tried to use",
+    "205511": "(CAS) Unable to get offer types for the title you've tried to use",
+    "205512": "(CAS) Unable to open XML file",
+    "205555": "(CAS) Request error (empty values)",
+    "205624": "(CAS) Couldn't Title ID(s)",
     "205800": "Generic PAS (PaymentAuthorizationSOAP) error.",
     "205825": "Generic PAS (PaymentAuthorizationSOAP) error. (PAS_ERROR_CODE)",
     "205700": "Generic ETS (ETicketSOAP) error.",
@@ -321,7 +340,7 @@ error_codes = {
     "205969": "Server under heavy load",
     "206601": "Authentication error, missing required parameters",
     "206651": "Mistake while entering the console's serial number",
-    "206663": "An operation is in progress",
+    "206663": "An operation is in progress (???OSS_ERROR_IN_PROCESS???)",
     "250943": "Problems with your Club Nintendo account. It can't get connected with your shop account",
     "206653": "Nickname or password wrong",
     "206660": "No progress was made in the last operation",
@@ -350,6 +369,7 @@ error_codes = {
     "204970": "SSL_EVERIFY_CHAIN",
     "204971": "SSL_EVERIFY_DATE",
     "204972": "SSL_EGET_SERVER_CERT",
+    "205100": "Most likely an error when gifting a title from Dolphin, it is unsupported.",
     "205007": "Invalid NAND Dump (Dolphin only)",
     "205540": "This software doesn't work in the vWii",
     "206670": "Invalid friend code",
@@ -364,11 +384,12 @@ error_codes = {
     "205810": "You don't have enough Wii Points / Error while redeeming your download ticket",
     "205818": "This card number can only be used for a specific title, it is not a Wii Points Card.",
     "205906": "Problem with your online account",
-    "206668": "Happens when current points count + new points would exceed the wii points limit",
+    "206668": "Your Wii Points balance cannot exceed the limit (usually 10.000 (Nintendo EU,AU) or 20.000 (Nintendo US,JP,KR) Wii Points)",
     "206673": "Invalid registration status",
     "222001": "There is a NWC24 error, but it could not be obtained.",
     "107006": "NWC24_ERR_FULL: The file NWC24 tried to download is too large.",
     "206602": "Error while entering Wii Points Card code. Try again later.",
+    "206699": "The Wii Points card number you entered is incorrect (it must be 16 digits, numbers only)",
     "206669": "Wii Points card invalid",
     "206607": "Error while retrieving the served content",
     "206608": "Error redeeming Wii Download Ticket",
@@ -420,14 +441,13 @@ error_codes = {
     "205643": "Unknown error",
     "205903": "Unknown error",
     "205645": "Issue with your DSi shop account?",
-    "206699": "Try again later",
     "051330": "Internet connection error. The Wii needs a 2.4gHz signal with 802.11b/g/n enabled, and the security set to WPA2-PSK (AES). The channel must also either be set to auto or be less than 12.",
     "206112": "The free title promotion has ended (ICR_END)",
     "206401": "Invalid characters in nick or password",
     "206499": "Maintenance. Login not possible",
     "205942": "Maintenance. Login not possible",
-    "20110": "Nintendo Wi-Fi Connection for the title has been discontinued. (The title/game was not patched with [Wiimmfi](<https://wiimmfi.de>))",
-    "371410": "Unable to contact YouTube (applies if [RiiviveTube](<https://revivemii.xyz/>) is installed).",
+    "20110": "Nintendo Wi-Fi Connection for the title has been discontinued. (The title/game was not patched with <a href=\"https://wiimmfi.de\">Wiimmfi</a>)",
+    "371410": "Unable to contact YouTube (applies if <a href=\"https://revivemii.xyz/\">RiiviveTube</a> is installed).",
     "372201": "Flash channel returned HTTP 201 Created",
     "372202": "Flash channel returned HTTP 202 Accepted",
     "372203": "Flash channel returned HTTP 203 Non-Authoritative Information",
@@ -486,7 +506,7 @@ error_codes = {
     "372508": "Flash channel returned HTTP 508 Loop Detected",
     "372510": "Flash channel returned HTTP 510 Not Extended",
     "372511": "Flash channel returned HTTP 511 Network Authentication Required",
-    "362523": "Flash channel returned HTTP 523 Origin Is Unreachable"
+    "372523": "Flash channel returned HTTP 523 Origin Is Unreachable"
 }
 
 
@@ -609,7 +629,7 @@ async def unset(ctx):
     await ctx.send("Status has been unset.")
 
 @bot.hybrid_command(name="error", description="Gets the error message linked with the shop error code")
-async def geterror(ctx, errorcode: commands.Range[int, 51330, 372511]):
+async def geterror(ctx, errorcode: commands.Range[int, 51330, 372523]):
     try:
         errormessage = get_error_message(errorcode)
     except ValueError:
