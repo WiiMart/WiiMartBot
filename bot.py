@@ -62,7 +62,7 @@ client = discord.Client(intents=intents)
 token = os.getenv("token")
 status = os.getenv("status")
 url_status = "Unknown"
-url = "https://oss-auth.thecheese.io/"
+url = "https://oss-auth.wiimart.org/"
 
 
 def get_error_message(code):
